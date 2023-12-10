@@ -27,7 +27,7 @@ app.use(cors(corsOptionsDelegate));
 
 // Apis
 require("./src/routes/menu_route")(app);
-
+require("./src/routes/category_route")(app);
 
 app.listen(port, () => {
   console.log(`App listening on http://localhost:${port}`);
