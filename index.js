@@ -3,6 +3,10 @@ const app = express();
 const port = 3017;
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+
+// Cookie Parser
+app.use(cookieParser("PJVQuYspNUZGJeo"));
 
 // Body Parser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -19,6 +23,8 @@ const corsOptionsDelegate = function (req, callback) {
   }
   callback(null, corsOptions); // callback expects two parameters: error and options
 };
+
+const sql = require("./src/common/mysql")
 
 app.use(cors(corsOptionsDelegate));
 app.listen(port, () => {
