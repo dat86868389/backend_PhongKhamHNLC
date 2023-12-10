@@ -23,10 +23,12 @@ const corsOptionsDelegate = function (req, callback) {
   }
   callback(null, corsOptions); // callback expects two parameters: error and options
 };
-
-const sql = require("./src/common/mysql")
-
 app.use(cors(corsOptionsDelegate));
+
+// Apis
+require("./src/routes/menu_route")(app);
+
+
 app.listen(port, () => {
   console.log(`App listening on http://localhost:${port}`);
 });
