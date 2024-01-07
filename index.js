@@ -5,6 +5,8 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 
+app.locals.SECRET_KEY = "8OsZyFK0gP";
+
 // Cookie Parser
 app.use(cookieParser("PJVQuYspNUZGJeo"));
 

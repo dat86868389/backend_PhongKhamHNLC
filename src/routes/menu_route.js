@@ -1,4 +1,10 @@
 const menuController = require("../controlers/menu_controller");
-module.exports = function(router){
-    router.get("/api/menu/get-all-by-category/:categoryCode", menuController.getAllByCategory);
-}
+const verifyToken = require("../middlewares/jwt_middle");
+
+module.exports = function (router) {
+  router.get(
+    "/api/menu/get-all-by-category/:categoryCode",
+    verifyToken,
+    menuController.getAllByCategory
+  );
+};
