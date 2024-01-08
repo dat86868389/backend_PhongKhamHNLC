@@ -4,7 +4,6 @@ const port = 3017;
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-
 app.locals.SECRET_KEY = "8OsZyFK0gP";
 
 // Cookie Parser
@@ -33,6 +32,7 @@ require("./src/routes/category_route")(app);
 require("./src/routes/user_route")(app);
 require("./src/routes/service_route")(app);
 require("./src/routes/department_route")(app);
+require("./src/routes/upload_route")(app);
 
 app.listen(port, () => {
   console.log(`App listening on http://localhost:${port}`);
