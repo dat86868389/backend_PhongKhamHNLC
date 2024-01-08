@@ -26,6 +26,11 @@ const corsOptionsDelegate = function (req, callback) {
 };
 app.use(cors(corsOptionsDelegate));
 
+// make "public" folder is public
+// get any files in folder public
+// ex: http://localhost:3017/thumbnail/abc.png
+app.use(express.static('public'))
+
 // Apis
 require("./src/routes/menu_route")(app);
 require("./src/routes/category_route")(app);
