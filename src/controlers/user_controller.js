@@ -6,7 +6,7 @@ exports.login = function (req, res) {
   userModel.getUserByAccount(loginRequest, function (data) {
     // Sai thông tin đăng nhập
     if (data.length == 0) {
-      res.status(403).send({ Message: "Unauthorized" });
+      res.status(400).send({ Message: "Unauthorized" });
     } else {
       // Đúng thông tin đăng nhập
       const userLogin = data[0];
