@@ -4,7 +4,6 @@ const port = 3017;
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-
 app.locals.SECRET_KEY = "8OsZyFK0gP";
 
 // Cookie Parser
@@ -27,12 +26,18 @@ const corsOptionsDelegate = function (req, callback) {
 };
 app.use(cors(corsOptionsDelegate));
 
+// make "public" folder is public
+// get any files in folder public
+// ex: http://localhost:3017/thumbnail/abc.png
+app.use(express.static('public'))
+
 // Apis
 require("./src/routes/menu_route")(app);
 require("./src/routes/category_route")(app);
 require("./src/routes/user_route")(app);
 require("./src/routes/service_route")(app);
 require("./src/routes/department_route")(app);
+require("./src/routes/upload_route")(app);
 
 app.listen(port, () => {
   console.log(`App listening on http://localhost:${port}`);
