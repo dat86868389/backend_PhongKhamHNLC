@@ -8,7 +8,7 @@ const user = function (_user) {
 };
 
 user.getUserByAccount = function (loginRequest, callback) {
-  const sql = "select * from User Where Account = ? and HashPassword = ?";
+  const sql = "select * from User Where Account = ? and HashPassword = ? and IsDeleted = 0";
   database.query(
     sql,
     [loginRequest.account, hashPassword(loginRequest.password)],
