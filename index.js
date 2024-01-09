@@ -38,6 +38,7 @@ require("./src/routes/service_route")(app);
 require("./src/routes/department_route")(app);
 require("./src/routes/upload_route")(app);
 require("./src/routes/post_route")(app);
+require("./src/routes/slider_route")(app);
 
 app.listen(port, () => {
   console.log(`App listening on http://localhost:${port}`);
