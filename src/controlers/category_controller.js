@@ -36,6 +36,10 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res) {
   categoryModel.delete(req.params.categoryId, function (data) {
-    res.status(200).send(data);
+    if (data == true) {
+      res.status(200).send({});
+    } else {
+      res.status(400).send({ Message: "Can not delete this category" });
+    }
   });
 };

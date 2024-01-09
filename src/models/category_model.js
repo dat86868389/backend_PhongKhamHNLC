@@ -97,13 +97,26 @@ category.update = function (categoryDto, callback) {
 };
 
 category.delete = function (categoryId, callback) {
-  const sql = "update Category set IsDeleted = 1 where Id = ?";
-  database.query(sql, [categoryId], function (err, result) {
+  const sqlCheck = "select Id from Post where CategoryId = ?";
+  database.query(sqlCheck, [categoryId], function (err, result) {
     if (err) {
       callback(err);
       return;
     }
-    callback(result);
+    // Đã có bài viết thuộc thể loại này thì không cho xoá
+    if (result.length != 0) {
+      callback(false);
+    } else {
+      // Chưa có bài viết thuộc thể loại này thì cho xoá
+      const sqlDelete = "update Category set IsDeleted = 1 where Id = ?";
+      database.query(sqlDelete, [categoryId], function (err, resultUpdate) {
+        if (err) {
+          callback(err);
+          return;
+        }
+        callback(true);
+      });
+    }
   });
 };
 

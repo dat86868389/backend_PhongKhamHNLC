@@ -32,12 +32,12 @@ app.use(cors(corsOptionsDelegate));
 app.use(express.static('public'))
 
 // Apis
-require("./src/routes/menu_route")(app);
 require("./src/routes/category_route")(app);
 require("./src/routes/user_route")(app);
 require("./src/routes/service_route")(app);
 require("./src/routes/department_route")(app);
 require("./src/routes/upload_route")(app);
+require("./src/routes/post_route")(app);
 
 app.listen(port, () => {
   console.log(`App listening on http://localhost:${port}`);
