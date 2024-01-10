@@ -29,7 +29,7 @@ app.use(cors(corsOptionsDelegate));
 // make "public" folder is public
 // get any files in folder public
 // ex: http://localhost:3017/thumbnail/abc.png
-app.use(express.static('public'))
+app.use(express.static("public"));
 
 // Apis
 require("./src/routes/category_route")(app);
@@ -39,6 +39,8 @@ require("./src/routes/department_route")(app);
 require("./src/routes/upload_route")(app);
 require("./src/routes/post_route")(app);
 require("./src/routes/slider_route")(app);
+require("./src/routes/doctor_route")(app);
+require("./src/routes/contact_route")(app);
 
 app.listen(port, () => {
   console.log(`App listening on http://localhost:${port}`);

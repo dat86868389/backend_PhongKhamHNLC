@@ -2,21 +2,12 @@ const departmentController = require("../controlers/department_controller");
 const verifyToken = require("../middlewares/jwt_middle");
 
 module.exports = function (router) {
-  router.post(
-    "/api/department/get-page",
-    verifyToken,
-    departmentController.getPage
-  );
+  router.post("/api/department/get-page", departmentController.getPage);
 
-  router.get(
-    "/api/department/get-all",
-    verifyToken,
-    departmentController.getAll
-  );
+  router.get("/api/department/get-all", departmentController.getAll);
 
   router.get(
     "/api/department/get-detail/:departmentId",
-    verifyToken,
     departmentController.getById
   );
 
