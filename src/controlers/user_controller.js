@@ -23,3 +23,32 @@ exports.login = function (req, res) {
     }
   });
 };
+
+exports.getPage = function (req, res) {
+  userModel.getPage(req.body, function (data) {
+    res.status(200).send(data);
+  });
+};
+
+exports.getInfo = function (req, res) {
+  userModel.getById(req.currentUser.userId, function (data) {
+    res.status(200).send(data);
+  });
+};
+
+exports.getById = function (req, res) {
+  userModel.getById(req.params.userId, function (data) {
+    res.status(200).send(data);
+  });
+};
+
+exports.create = function (req, res) {
+  const userDto = req.body;
+  userModel.create(userDto, function (data) {
+    if (data.Id == null) {
+      res.status(400).send({ Message: "Duplicate Account" });
+    } else {
+      res.status(200).send(data);
+    }
+  });
+};

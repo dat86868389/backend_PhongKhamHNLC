@@ -41,6 +41,7 @@ require("./src/routes/post_route")(app);
 require("./src/routes/slider_route")(app);
 require("./src/routes/doctor_route")(app);
 require("./src/routes/contact_route")(app);
+require("./src/routes/schedule_route")(app);
 
 app.listen(port, () => {
   console.log(`App listening on http://localhost:${port}`);
