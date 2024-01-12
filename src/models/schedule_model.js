@@ -8,7 +8,7 @@ schedule.getPage = function (request, callback) {
   }
   const sqlBody = `where Schedule.IsDeleted = 0 and (? = '' or Schedule.FullName like concat('%', ? ,'%')) and (? = -1 or Schedule.DoctorId = ?) `;
   const sqlPage =
-    `select Schedule.Id, Schedule.FullName, Schedule.PhoneNumber, Schedule.Email, DATE_FORMAT(Schedule.MeetDate, "%d-%m-%Y") as MeetDate, Schedule.MeetTime, Doctor.Id as DoctorId, Doctor.Name as DoctorName ` +
+    `select Schedule.Id, Schedule.FullName, Schedule.PhoneNumber, Schedule.Email, Schedule.Note, DATE_FORMAT(Schedule.MeetDate, "%d-%m-%Y") as MeetDate, Schedule.MeetTime, Doctor.Id as DoctorId, Doctor.Name as DoctorName ` +
     `from Schedule join Doctor on Schedule.DoctorId = Doctor.Id ` +
     sqlBody +
     `order by Schedule.Id desc ` +
@@ -54,7 +54,7 @@ schedule.getPage = function (request, callback) {
 
 schedule.create = function (scheduleDto, callback) {
   const sql =
-    "insert into Schedule(DoctorId, FullName, PhoneNumber, Email, MeetDate, MeetTime) values (?, ?, ?, ?, STR_TO_DATE(?, '%d-%m-%Y'), ?)";
+    "insert into Schedule(DoctorId, FullName, PhoneNumber, Email, MeetDate, MeetTime, Note) values (?, ?, ?, ?, STR_TO_DATE(?, '%d-%m-%Y'), ?, ?)";
   database.query(
     sql,
     [
@@ -64,6 +64,7 @@ schedule.create = function (scheduleDto, callback) {
       scheduleDto.Email,
       scheduleDto.MeetDate,
       scheduleDto.MeetTime,
+      scheduleDto.Note,
     ],
     function (err, result) {
       if (err) {
