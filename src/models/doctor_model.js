@@ -5,7 +5,7 @@ const doctor = function (_doctor) {};
 doctor.getPage = function (request, callback) {
   const sqlBody = `where Doctor.IsDeleted = 0 and (? = '' or Doctor.Name like concat('%', ? ,'%')) `;
   const sqlPage =
-    `select Doctor.Id, Doctor.Name, Doctor.ImagePath, Doctor.Position, DATE_FORMAT(Doctor.CreatedAt, "%d-%m-%Y") as CreatedAt, User.Name as CreatedBy ` +
+    `select Doctor.Id, Doctor.Name, Doctor.ImagePath, Doctor.Position, DATE_FORMAT(Doctor.CreatedAt, "%d-%m-%Y") as CreatedAt, DATE_FORMAT(Doctor.StartWorkDate, "%d-%m-%Y") as StartWorkDate, DATE_FORMAT(Doctor.EndWorkDate, "%d-%m-%Y") as EndWorkDate, User.Name as CreatedBy ` +
     `from Doctor join User on Doctor.CreatedBy = User.Id ` +
     sqlBody +
     `order by Doctor.Id desc ` +
@@ -41,8 +41,7 @@ doctor.getPage = function (request, callback) {
 };
 
 doctor.getAll = function (callback) {
-  const sql =
-    "select Id, Name, ImagePath, Position from Doctor where IsDeleted = 0 order by Id desc";
+  const sql = `select Id, Name, ImagePath, Position, DATE_FORMAT(StartWorkDate, "%d-%m-%Y") as StartWorkDate, DATE_FORMAT(EndWorkDate, "%d-%m-%Y") as EndWorkDate from Doctor where IsDeleted = 0 order by Id desc`;
   database.query(sql, [], function (err, result) {
     if (err) {
       callback(err);
@@ -53,8 +52,7 @@ doctor.getAll = function (callback) {
 };
 
 doctor.getById = function (doctorId, callback) {
-  const sql =
-    "select Id, Name, ImagePath, Position from Doctor where IsDeleted = 0 and Id = ?";
+  const sql = `select Id, Name, ImagePath, Position, DATE_FORMAT(StartWorkDate, "%d-%m-%Y") as StartWorkDate, DATE_FORMAT(EndWorkDate, "%d-%m-%Y") as EndWorkDate from Doctor where IsDeleted = 0 and Id = ?`;
   database.query(sql, [doctorId], function (err, result) {
     if (err) {
       callback(err);
@@ -66,13 +64,15 @@ doctor.getById = function (doctorId, callback) {
 
 doctor.create = function (doctorDto, callback) {
   const sql =
-    "insert into Doctor(Name, ImagePath, Position, CreatedBy) values (?, ?, ?, ?)";
+    "insert into Doctor(Name, ImagePath, Position, StartWorkDate, EndWorkDate, CreatedBy) values (?, ?, ?, STR_TO_DATE(?, '%d-%m-%Y'), STR_TO_DATE(?, '%d-%m-%Y'), ?)";
   database.query(
     sql,
     [
       doctorDto.Name,
       doctorDto.ImagePath,
       doctorDto.Position,
+      doctorDto.StartWorkDate,
+      doctorDto.EndWorkDate,
       doctorDto.CurrentUserId,
     ],
     function (err, result) {
@@ -88,7 +88,7 @@ doctor.create = function (doctorDto, callback) {
 doctor.update = function (doctorDto, callback) {
   const sql =
     "update Doctor " +
-    "set Name = ?, ImagePath = ?, Position = ?, UpdatedBy = ?, UpdatedAt = CURRENT_TIMESTAMP " +
+    "set Name = ?, ImagePath = ?, Position = ?, UpdatedBy = ?, UpdatedAt = CURRENT_TIMESTAMP, StartWorkDate = STR_TO_DATE(?, '%d-%m-%Y'), EndWorkDate = STR_TO_DATE(?, '%d-%m-%Y')" +
     "where Id = ?";
   database.query(
     sql,
@@ -97,6 +97,8 @@ doctor.update = function (doctorDto, callback) {
       doctorDto.ImagePath,
       doctorDto.Position,
       doctorDto.CurrentUserId,
+      doctorDto.StartWorkDate,
+      doctorDto.EndWorkDate,
       doctorDto.Id,
     ],
     function (err, result) {
