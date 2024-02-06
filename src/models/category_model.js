@@ -97,7 +97,7 @@ category.update = function (categoryDto, callback) {
 };
 
 category.delete = function (categoryId, callback) {
-  const sqlCheck = "select Id from Post where CategoryId = ?";
+  const sqlCheck = "select Id from Post where CategoryId = ? and IsDeleted = 0";
   database.query(sqlCheck, [categoryId], function (err, result) {
     if (err) {
       callback(err);
