@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // CORS
-const allowlist = ["http://localhost:3000"];
+const allowlist = ["http://localhost:3000", "https://phongkhamhanoilaocai.com.vn:3000", "https://phongkhamhanoilaocai.com.vn"];
 const corsOptionsDelegate = function (req, callback) {
   var corsOptions;
   if (allowlist.indexOf(req.header("Origin")) !== -1) {
