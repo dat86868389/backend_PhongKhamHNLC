@@ -28,7 +28,7 @@ schedule.getPage = function (request, callback) {
     ],
     function (err, resultPage) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       // Gọi truy vấn count
@@ -42,7 +42,7 @@ schedule.getPage = function (request, callback) {
         ],
         function (err, resultCount) {
           if (err) {
-            callback(err);
+            callback([]);
             return;
           }
           callback({ TotalRecord: resultCount[0].total, Data: resultPage });
@@ -68,7 +68,7 @@ schedule.create = function (scheduleDto, callback) {
     ],
     function (err, result) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       callback({ Id: result.insertId });
@@ -80,7 +80,7 @@ schedule.delete = function (scheduleId, callback) {
   const sqlDelete = "Update Schedule set IsDeleted = 1 where Id = ?";
   database.query(sqlDelete, [scheduleId], function (err, resultUpdate) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(resultUpdate);

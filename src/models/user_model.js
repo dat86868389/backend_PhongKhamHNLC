@@ -15,7 +15,7 @@ user.getUserByAccount = function (loginRequest, callback) {
     [loginRequest.account, hashPassword(loginRequest.password)],
     function (err, result) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       callback(result);
@@ -43,7 +43,7 @@ user.getPage = function (request, callback) {
     ],
     function (err, resultPage) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       // Gọi truy vấn count
@@ -52,7 +52,7 @@ user.getPage = function (request, callback) {
         [request.KeySearch, request.KeySearch, request.KeySearch],
         function (err, resultCount) {
           if (err) {
-            callback(err);
+            callback([]);
             return;
           }
           callback({ TotalRecord: resultCount[0].total, Data: resultPage });
@@ -67,7 +67,7 @@ user.getById = function (userId, callback) {
     "select u.Id, u.Name, u.Account, DATE_FORMAT(u.CreatedAt, '%d-%m-%Y') as CreatedAt, r.Id as RoleId, r.Name as RoleName from `User` u join `Role` r on u.RoleId = r.Id where u.IsDeleted = 0 and u.Id = ?";
   database.query(sql, [userId], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(result[0]);
@@ -78,7 +78,7 @@ user.create = function (userDto, callback) {
   const sqlCheck = "select Id from `User` where Account = ?";
   database.query(sqlCheck, [userDto.Account], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     // Trùng tên tài khoản
@@ -99,7 +99,7 @@ user.create = function (userDto, callback) {
         ],
         function (err, resultInsert) {
           if (err) {
-            callback(err);
+            callback([]);
             return;
           }
           callback({ Id: resultInsert.insertId });

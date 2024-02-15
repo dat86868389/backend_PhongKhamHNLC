@@ -6,7 +6,7 @@ sliderImage.getAll = function (callback) {
   const sql = "select * from SliderImage order by `Order` asc";
   database.query(sql, [], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(result);
@@ -18,7 +18,7 @@ sliderImage.update = function (lstSliderImageDto, callback) {
   const sqlDelete = "delete from SliderImage";
   database.query(sqlDelete, [], function (err, resultUpdate) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     const sqlUpdate = "insert into SliderImage(ImagePath, `Order`) values ?";
@@ -27,7 +27,7 @@ sliderImage.update = function (lstSliderImageDto, callback) {
       [lstSliderImageDto.map((imagePath, index) => [imagePath, index + 1])],
       function (err, resultUpdate) {
         if (err) {
-          callback(err);
+          callback([]);
           return;
         }
         callback(resultUpdate);

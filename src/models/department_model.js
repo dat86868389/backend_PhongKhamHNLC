@@ -21,7 +21,7 @@ department.getPage = function (request, callback) {
     ],
     function (err, resultPage) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       // Gọi truy vấn count
@@ -30,7 +30,7 @@ department.getPage = function (request, callback) {
         [request.KeySearch, request.KeySearch],
         function (err, resultCount) {
           if (err) {
-            callback(err);
+            callback([]);
             return;
           }
           callback({ TotalRecord: resultCount[0].total, Data: resultPage });
@@ -45,7 +45,7 @@ department.getAll = function (callback) {
     "select Id, Name, Description from Department where IsDeleted = 0 order by Id desc";
   database.query(sql, [], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(result);
@@ -57,7 +57,7 @@ department.getById = function (departmentId, callback) {
     "select Id, Name, Description from Department where IsDeleted = 0 and Id = ?";
   database.query(sql, [departmentId], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(result[0]);
@@ -76,7 +76,7 @@ department.create = function (departmentDto, callback) {
     ],
     function (err, result) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       callback({ Id: result.insertId });
@@ -99,7 +99,7 @@ department.update = function (departmentDto, callback) {
     ],
     function (err, result) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       callback(result);
@@ -111,7 +111,7 @@ department.delete = function (departmentId, callback) {
   const sql = "update Department set IsDeleted = 1 where Id = ?";
   database.query(sql, [departmentId], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(result);

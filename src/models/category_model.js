@@ -21,7 +21,7 @@ category.getPage = function (request, callback) {
     ],
     function (err, resultPage) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       // Gọi truy vấn count
@@ -30,7 +30,7 @@ category.getPage = function (request, callback) {
         [request.KeySearch, request.KeySearch],
         function (err, resultCount) {
           if (err) {
-            callback(err);
+            callback([]);
             return;
           }
           callback({ TotalRecord: resultCount[0].total, Data: resultPage });
@@ -45,7 +45,7 @@ category.getAll = function (callback) {
     "select Id, Name from Category where IsDeleted = 0 order by Id desc";
   database.query(sql, [], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(result);
@@ -56,7 +56,7 @@ category.getById = function (categoryId, callback) {
   const sql = "select Id, Name from Category where IsDeleted = 0 and Id = ?";
   database.query(sql, [categoryId], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(result[0]);
@@ -70,7 +70,7 @@ category.create = function (categoryDto, callback) {
     [categoryDto.Name, categoryDto.CurrentUserId],
     function (err, result) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       callback({ Id: result.insertId });
@@ -88,7 +88,7 @@ category.update = function (categoryDto, callback) {
     [categoryDto.Name, categoryDto.CurrentUserId, categoryDto.Id],
     function (err, result) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       callback(result);
@@ -100,7 +100,7 @@ category.delete = function (categoryId, callback) {
   const sqlCheck = "select Id from Post where CategoryId = ? and IsDeleted = 0";
   database.query(sqlCheck, [categoryId], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     // Đã có bài viết thuộc thể loại này thì không cho xoá
@@ -111,7 +111,7 @@ category.delete = function (categoryId, callback) {
       const sqlDelete = "update Category set IsDeleted = 1 where Id = ?";
       database.query(sqlDelete, [categoryId], function (err, resultUpdate) {
         if (err) {
-          callback(err);
+          callback([]);
           return;
         }
         callback(true);

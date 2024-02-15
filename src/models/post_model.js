@@ -31,7 +31,7 @@ post.getPage = function (request, callback) {
     ],
     function (err, resultPage) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       // Gọi truy vấn count
@@ -45,7 +45,7 @@ post.getPage = function (request, callback) {
         ],
         function (err, resultCount) {
           if (err) {
-            callback(err);
+            callback([]);
             return;
           }
           callback({ TotalRecord: resultCount[0].total, Data: resultPage });
@@ -65,7 +65,7 @@ post.getAll = function (callback) {
     `where Post.IsDeleted = 0 Order by Post.Id desc`;
   database.query(sql, [], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(result);
@@ -82,7 +82,7 @@ post.getById = function (postId, callback) {
     `where Post.Id = ?`;
   database.query(sql, [postId], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(result[0]);
@@ -104,7 +104,7 @@ post.create = function (postDto, callback) {
     ],
     function (err, result) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       callback({ Id: result.insertId });
@@ -130,7 +130,7 @@ post.update = function (postDto, callback) {
     ],
     function (err, result) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       callback(result);
@@ -142,7 +142,7 @@ post.delete = function (postId, callback) {
   const sql = "update Post set IsDeleted = 1 where Id = ?";
   database.query(sql, [postId], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(result);

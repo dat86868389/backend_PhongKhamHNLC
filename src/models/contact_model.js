@@ -21,7 +21,7 @@ contact.getPage = function (request, callback) {
     ],
     function (err, resultPage) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       // Gọi truy vấn count
@@ -30,7 +30,7 @@ contact.getPage = function (request, callback) {
         [request.KeySearch, request.KeySearch],
         function (err, resultCount) {
           if (err) {
-            callback(err);
+            callback([]);
             return;
           }
           callback({ TotalRecord: resultCount[0].total, Data: resultPage });
@@ -45,7 +45,7 @@ contact.getAll = function (callback) {
     "select Id, Name, Email, PhoneNumber, Subject, Message from Contact where IsDeleted = 0 order by Id desc";
   database.query(sql, [], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(result);
@@ -57,7 +57,7 @@ contact.getById = function (contactId, callback) {
     "select Id, Name, Email, PhoneNumber, Subject, Message from Contact where IsDeleted = 0 and Id = ?";
   database.query(sql, [contactId], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(result[0]);
@@ -78,7 +78,7 @@ contact.create = function (contactDto, callback) {
     ],
     function (err, result) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       callback({ Id: result.insertId });
@@ -90,7 +90,7 @@ contact.delete = function (contactId, callback) {
   const sqlDelete = "Update Contact set IsDeleted = 1 where Id = ?";
   database.query(sqlDelete, [contactId], function (err, resultUpdate) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(resultUpdate);

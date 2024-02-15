@@ -21,7 +21,7 @@ doctor.getPage = function (request, callback) {
     ],
     function (err, resultPage) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       // Gọi truy vấn count
@@ -30,7 +30,7 @@ doctor.getPage = function (request, callback) {
         [request.KeySearch, request.KeySearch],
         function (err, resultCount) {
           if (err) {
-            callback(err);
+            callback([]);
             return;
           }
           callback({ TotalRecord: resultCount[0].total, Data: resultPage });
@@ -44,7 +44,7 @@ doctor.getAll = function (callback) {
   const sql = `select Id, Name, ImagePath, Position, DATE_FORMAT(StartWorkDate, "%d-%m-%Y") as StartWorkDate, DATE_FORMAT(EndWorkDate, "%d-%m-%Y") as EndWorkDate from Doctor where IsDeleted = 0 order by Id desc`;
   database.query(sql, [], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(result);
@@ -55,7 +55,7 @@ doctor.getById = function (doctorId, callback) {
   const sql = `select Id, Name, ImagePath, Position, DATE_FORMAT(StartWorkDate, "%d-%m-%Y") as StartWorkDate, DATE_FORMAT(EndWorkDate, "%d-%m-%Y") as EndWorkDate from Doctor where IsDeleted = 0 and Id = ?`;
   database.query(sql, [doctorId], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(result[0]);
@@ -77,7 +77,7 @@ doctor.create = function (doctorDto, callback) {
     ],
     function (err, result) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       callback({ Id: result.insertId });
@@ -103,7 +103,7 @@ doctor.update = function (doctorDto, callback) {
     ],
     function (err, result) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       callback(result);
@@ -115,7 +115,7 @@ doctor.delete = function (doctorId, callback) {
   const sqlDelete = "update Doctor set IsDeleted = 1 where Id = ?";
   database.query(sqlDelete, [doctorId], function (err, resultUpdate) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(resultUpdate);

@@ -21,7 +21,7 @@ service.getPage = function (request, callback) {
     ],
     function (err, resultPage) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       // Gọi truy vấn count
@@ -30,7 +30,7 @@ service.getPage = function (request, callback) {
         [request.KeySearch, request.KeySearch],
         function (err, resultCount) {
           if (err) {
-            callback(err);
+            callback([]);
             return;
           }
           callback({ TotalRecord: resultCount[0].total, Data: resultPage });
@@ -45,7 +45,7 @@ service.getAll = function (callback) {
     "select Id, Name, Description from Service where IsDeleted = 0 order by Id desc";
   database.query(sql, [], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(result);
@@ -57,7 +57,7 @@ service.getById = function (serviceId, callback) {
     "select Id, Name, Description from Service where IsDeleted = 0 and Id = ?";
   database.query(sql, [serviceId], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(result[0]);
@@ -72,7 +72,7 @@ service.create = function (serviceDto, callback) {
     [serviceDto.Name, serviceDto.Description, serviceDto.CurrentUserId],
     function (err, result) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       callback({ Id: result.insertId });
@@ -95,7 +95,7 @@ service.update = function (serviceDto, callback) {
     ],
     function (err, result) {
       if (err) {
-        callback(err);
+        callback([]);
         return;
       }
       callback(result);
@@ -107,7 +107,7 @@ service.delete = function (serviceId, callback) {
   const sql = "update Service set IsDeleted = 1 where Id = ?";
   database.query(sql, [serviceId], function (err, result) {
     if (err) {
-      callback(err);
+      callback([]);
       return;
     }
     callback(result);
